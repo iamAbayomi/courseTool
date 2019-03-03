@@ -1,19 +1,33 @@
 package io.appdot.coursetool.view;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.Objects;
 
 import io.appdot.coursetool.R;
 
 public class FileActivity extends AppCompatActivity {
 
     private static final int READ_REQUEST_CODE = 42;
+    private static final String TAG = "FileActivity";
+    private StorageReference mStorageReference;
+    private FirebaseStorage mStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +35,9 @@ public class FileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_file);
         //setting the Toolbar
         setToolbar();
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReference();
+
+        mStorage = FirebaseStorage.getInstance();
+        mStorageReference = mStorage.getReference().child("past_questions");
 
     }
 
@@ -34,10 +49,16 @@ public class FileActivity extends AppCompatActivity {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-
+                int id = item.getItemId();
+                if(id==R.id.upload){
+                    performFileSearch();
+                }
+                performFileSearch();
                 return false;
             }
         });
+
+
     }
 
     public void performFileSearch(){
@@ -51,12 +72,41 @@ public class FileActivity extends AppCompatActivity {
         startActivityForResult(intent, READ_REQUEST_CODE);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent resultData) {
         // The ACTION_OPEN_DOCUMENT intent was sent with the request code
         // READ_REQUEST_CODE. If the request code seen here doesn't match, it's the
         // response to some other intent, and the code below shouldn't run at all.
 
+        if(requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK)
+        {
+            // The document selected by the user won't be returned in the intent.
+            // Instead, a URI to that document will be contained in the return intent
+            // provided to this method as a parameter.
+            // Pull that URI using resultData.getData().
+            Uri uri = null;
+            if(resultData != null){
+                uri =resultData.getData();
+                Log.i(TAG, "Uri" +uri.toString());
+            }
+
+            assert uri != null;
+            StorageReference pqRef= mStorageReference.child(Objects.requireNonNull(uri.getLastPathSegment()));
+
+            pqRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
+
+        }
     }
 
     }
