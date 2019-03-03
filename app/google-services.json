@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "111892955843",
+    "firebase_url": "https://course-tool-3578f.firebaseio.com",
+    "project_id": "course-tool-3578f",
+    "storage_bucket": "course-tool-3578f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111892955843:android:84a26a405baa6cca",
+        "android_client_info": {
+          "package_name": "io.appdot.coursetool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111892955843-uaarhu5uv7vohbuvrnn380b7bh7b67al.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.appdot.coursetool",
+            "certificate_hash": "114db5da13ea7e4acc2a3a815bf4ba1e2d7175f3"
+          }
+        },
+        {
+          "client_id": "111892955843-kufrmknf8h0p9kb7o4a2f1g7a3pqr5do.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByMsbFiLDw726W_fovI_oAvFJWrzFtnFY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111892955843-kufrmknf8h0p9kb7o4a2f1g7a3pqr5do.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">CourseTool</string>
+
+    <string-array name="Courses">
+        <item>MAT213</item>
+        <item>STA221</item>
+        <item>CSC234</item>
+        <item>CSC233</item>
+        <item>CSC221</item>
+        <item>CSC272</item>
+        <item>CSC241</item>
+        <item>GES101</item>
+        <item>GES103</item>
+    </string-array>
+
+    <string-array name="materials">
+        <item>Lectures Notes</item>
+        <item>PQ</item>
+        <item>Materials</item>
+    </string-array>
+
+</resources>
