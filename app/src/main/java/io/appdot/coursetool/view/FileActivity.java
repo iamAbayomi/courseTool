@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,6 +46,7 @@ public class FileActivity extends AppCompatActivity {
 
         Toolbar toolbar=findViewById(R.id.toolbar);
         toolbar.setTitle("Course Tool");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.cardview_light_background));
         toolbar.inflateMenu(R.menu.upload_tool);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -53,7 +55,7 @@ public class FileActivity extends AppCompatActivity {
                 if(id==R.id.upload){
                     performFileSearch();
                 }
-                performFileSearch();
+
                 return false;
             }
         });
@@ -61,7 +63,9 @@ public class FileActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void performFileSearch(){
+
 
         // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
         // browser.
@@ -69,6 +73,8 @@ public class FileActivity extends AppCompatActivity {
         // Filter to only show results that can be "opened", such as a
         // file (as opposed to a list of contacts or timezones)
         intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+
         startActivityForResult(intent, READ_REQUEST_CODE);
     }
 
@@ -90,6 +96,11 @@ public class FileActivity extends AppCompatActivity {
                 uri =resultData.getData();
                 Log.i(TAG, "Uri" +uri.toString());
             }
+            final int takeFlags = resultData.getFlags()
+                    & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+// Check for the freshest data.
+            getContentResolver().takePersistableUriPermission(uri, takeFlags);
 
             assert uri != null;
             StorageReference pqRef= mStorageReference.child(Objects.requireNonNull(uri.getLastPathSegment()));
